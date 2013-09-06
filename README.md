@@ -1,4 +1,20 @@
 arduino_stuff
 =============
 
-a collection of snippets to help you get a grip on arduino sensors
+a collection of code snippets to help students get a grip on arduino sensors
+
+----------------------------
+list of documented modules :
+----------------------------
+- chinese ultrasonic sensor 
+- UART serial devices
+===============================
+
+
+
+to do:  
+[] compile an accurate inventory of sensor modules
+[] create + streamline code snippets
+[] combine catalog of parts with a cross-list of code snippets
+[] ???
+[] profit
