@@ -7,7 +7,7 @@ a collection of code snippets to help students get a grip on arduino sensors
 list of documented modules :
 ----------------------------
 - chinese ultrasonic sensor 
-- UART serial devices
+- uart serial devices
 ===============================
 
 
