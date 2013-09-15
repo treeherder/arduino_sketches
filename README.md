@@ -8,7 +8,11 @@ list of documented modules :
 ----------------------------
 - chinese ultrasonic sensor 
 - uart serial devices
-- 
+- co sensor?
+-  RTC?
+
+
+
 ----------------------------
 
 
