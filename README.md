@@ -8,8 +8,8 @@ list of documented modules :
 ----------------------------
 - chinese ultrasonic sensor 
 - uart serial devices
-===============================
-
+- 
+----------------------------
 
 
 to do:  
