@@ -1,14 +1,13 @@
-
-int trigPin = 6;
-int echoPin = 7;
+int trig_pin = 6;
+int echo_pin = 7;
 long cm;
 long duration;
 long distance;
 
 void setup()  /*this runs once after power-on */
 {
- pinMode(trigPin, OUTPUT);
- pinMode(echoPin, INPUT);   
+ pinMode(trig_pin, OUTPUT);
+ pinMode(echo_pin, INPUT);   
  Serial.begin(9600);
 }
 
@@ -22,14 +21,14 @@ long get_distance()
 {
   delay(10);  
   /*trigger the device*/
-  digitalWrite(trigPin, LOW);
+  digitalWrite(trig_pin, LOW);
   delayMicroseconds(2);
-  digitalWrite(trigPin, HIGH);
+  digitalWrite(trig_pin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(trigPin, LOW);  
+  digitalWrite(trig_pin, LOW);  
 
 /*count the time between sending and receiving becasue this is going to be the basis for our conversion to distance */  
-  duration = pulseIn(echoPin, HIGH);
+  duration = pulseIn(echo_pin, HIGH);
 
 /*convert the time in milliseconds to distance in centimeters */
   cm = duration/27/2; /*we devide the result by two to because the observed length of the ping actually represents
