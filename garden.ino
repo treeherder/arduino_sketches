@@ -12,7 +12,7 @@
 #define lcd_cs 6
 #define dc     7
 #define rst    8  
-TFT TFTscreen = TFT(lcd_cs, dc, rst);
+TFT screen = TFT(lcd_cs, dc, rst);
 
 DHT dht(DHTPIN, DHTTYPE);
 /*it's important that we set these variable per DHT sensor on our project*/
@@ -23,42 +23,37 @@ void setup () {
     Serial.begin(57600);
     // following line sets the RTC to the date & time this sketch was compiled
     rtc.begin(DateTime(__DATE__, __TIME__));
-    TFTscreen.begin();
-    TFTscreen.background(0, 0, 0);
-    TFTscreen.stroke(100, 200, 255);
-    TFTscreen.println("welcome to the growbot");
+    screen.begin();
+    screen.background(0, 0, 0);
+    screen.stroke(100, 200, 255);
+    screen.println("welcome to the growbot");
      delay(1000);
 }
 
 void loop () {
-    DateTime now = rtc.now();
     
-    TFTscreen.print(now.year(), DEC);
-    TFTscreen.print('/');
-    TFTscreen.print(now.month(), DEC);
-    TFTscreen.print('/');
-    TFTscreen.print(now.day(), DEC);
-    TFTscreen.print(' ');
-    TFTscreen.print(now.hour(), DEC);
-    TFTscreen.print(':');
-    TFTscreen.print(now.minute(), DEC);
-    TFTscreen.print(':');
-    TFTscreen.print(now.second(), DEC);
-    TFTscreen.println();
-  float h = dht.readHumidity();
-  float t = dht.readTemperature();
-
-  // check if returns are valid, if they are NaN (not a number) then something went wrong!
-  if (isnan(t) || isnan(h)) {
-    TFTscreen.println("Failed to read from DHT");
-  } 
-  else {
-    TFTscreen.print("Humidity: "); 
-    TFTscreen.print(h);
-    TFTscreen.print(" %\t");
-    TFTscreen.print("Temperature: "); 
-    TFTscreen.print(t);
-    TFTscreen.println(" *C");
-  }
+    DateTime now = rtc.now();
+    float h = dht.readHumidity();
+    float t = dht.readTemperature();
+    screen.text("temperature    humidity", 0,10);
+    screen.println("");
+    screen.print("");
+    screen.print(t);
+    screen.print("           ");
+    screen.println(h);
+    screen.print(now.year(), DEC);
+    screen.print('/');
+    screen.print(now.month(), DEC);
+    screen.print('/');
+    screen.print(now.day(), DEC);
+    screen.print(' ');
+    screen.print(now.hour(), DEC);
+    screen.print(':');
+    screen.print(now.minute(), DEC);
+    screen.print(':');
+    screen.print(now.second(), DEC);
+    screen.println();
     delay(3000);
+    screen.background(0, 0, 0);
+
 }
