@@ -1,21 +1,5 @@
-#include <Wire.h>
 
-#define Addr 0x1E               //  i2c address
-
-void setup() {
-  Serial.begin(9600);
-  delay(100);                   // if you forget this step, your results will be muddled
-  Wire.begin();
-  
-  // Set operating mode to continuous
-  Wire.beginTransmission(Addr); 
-  Wire.write(byte(0x02));
-  Wire.write(byte(0x00));
-  Wire.endTransmission();
-}
-void loop(){Serial.println(compass());}
-
-float compass() {
+float get_bearing() {
   int x, y, z;
 
   // Initiate communications with compass
@@ -34,10 +18,10 @@ float compass() {
   float heading = atan2(x, y);
    
   // Correct for when signs are reversed.
-  /*if(heading < 0)
+  if(heading < 0)
     heading += 2*PI;
    
   // Convert radians to degrees for readability.
   float h_deg = heading * 180/M_PI; 
-  */return (heading);
+  return (h_deg);
 }
