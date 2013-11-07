@@ -1,25 +1,33 @@
 #include <Servo.h>
 
-Servo grab;
-Servo pan_arm;
-Servo tilt_arm;
-int cmd; //the switch variable
-void setup(){
-  Serial.begin(9600);
-  grab.attach(3);
-  tilt_arm.attach(2);
-  pan_arm.attach(4);
-}
+Servo claw;
+Servo tilt;
+Servo pan;
 
+char cmd_byte;
+
+
+void setup(){
+  claw.attach(13);
+  tilt.attach(12);
+  pan.attach(11);
+}
+  
+  
 void loop(){
-   if(Serial.available() > 0){
-      cmd = Serial.read();  // acceept a command
-       switch (cmd) {
-       case 'demo':
-        grab.write(180);
-        break;
-       default: 
-         Serial.println("defaulting");
-       }                                                     
-   }
+swing_tilt(90);
+swing_pan(20);
+delay(10000);
+}
+  
+void grab(int i){ 
+  claw.write(i); //closed
+}
+void swing_tilt(int i){ 
+  tilt.write(i); //closed
+}
+void swing_pan(int i, int ii){
+  tilt.write(90) 
+  pan.write(i); //closed
+  tilt.write(ii);
 }
