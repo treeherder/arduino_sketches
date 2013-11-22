@@ -1,59 +1,65 @@
-#include <SPI.h>
-#include <SD.h>
-#include <TFT.h>  // Arduino LCD library
 
 #include <Wire.h>
 #include "RTClib.h"
-#include <DHT11.h>
+#include <math.h> 
+int BH1750address = 0x23; //setting i2c address
+int light = 5;
+int ph_probe = A0;
 
-#define DHTPIN 11
-#define DHTTYPE DHT11
-#define sd_cs  12
-#define lcd_cs 6
-#define dc     7
-#define rst    8  
-TFT screen = TFT(lcd_cs, dc, rst);
-
-DHT dht(DHTPIN, DHTTYPE);
-/*it's important that we set these variable per DHT sensor on our project*/
-
+int water_temp = 13
+byte buff[2];
 RTC_Millis rtc;
 
 void setup () {
     Serial.begin(57600);
     // following line sets the RTC to the date & time this sketch was compiled
     rtc.begin(DateTime(__DATE__, __TIME__));
-    screen.begin();
-    screen.background(0, 0, 0);
-    screen.stroke(100, 200, 255);
-    screen.println("welcome to the growbot");
-     delay(1000);
+    pinMode(light, OUTPUT);
+    Wire.begin();
+
 }
 
-void loop () {
-    
-    DateTime now = rtc.now();
-    float h = dht.readHumidity();
-    float t = dht.readTemperature();
-    screen.text("temperature    humidity", 0,10);
-    screen.println("");
-    screen.print("");
-    screen.print(t);
-    screen.print("           ");
-    screen.println(h);
-    screen.print(now.year(), DEC);
-    screen.print('/');
-    screen.print(now.month(), DEC);
-    screen.print('/');
-    screen.print(now.day(), DEC);
-    screen.print(' ');
-    screen.print(now.hour(), DEC);
-    screen.print(':');
-    screen.print(now.minute(), DEC);
-    screen.print(':');
-    screen.print(now.second(), DEC);
-    screen.println();
-    delay(3000);
-    screen.background(0, 0, 0);
+void loop()
+{
+     digitalWrite(light, LOW); //turn the light on 
+     
+}
 
+
+void report_lux()
+{
+  int i;
+  uint16_t val=0;
+  BH1750_Init(BH1750address);
+  delay(200);
+
+  if(2==BH1750_Read(BH1750address))
+  {
+    val=((buff[0]<<8)|buff[1])/1.2;
+    Serial.print(val,DEC);     
+    Serial.println("[lx]"); 
+  }
+  delay(150);
+}
+
+
+int BH1750_Read(int address) //
+{
+  int i=0;
+  Wire.beginTransmission(address);
+  Wire.requestFrom(address, 2);
+  while(Wire.available()) //
+  {
+    buff[i] = Wire.read();  // receive one byte
+    i++;
+  }
+  Wire.endTransmission();  
+  return i;
+}
+
+void BH1750_Init(int address) 
+{
+  Wire.beginTransmission(address);
+  Wire.write(0x10);//1lx reolution 120ms
+  Wire.endTransmission();
 }
